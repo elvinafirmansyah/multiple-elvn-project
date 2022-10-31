@@ -61,13 +61,12 @@ function App() {
       `https://opentdb.com/api.php?${amount && `amount=${amount}`}${category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
     )
 
-    // const resp = await data.json();
-    const createAnswers = data.map((answer) => ({
+    const {results} = data
+    const createAnswers = results.map((answer) => ({
         ...answer,
         answers: [answer.correct_answer, ...answer.incorrect_answers].sort(() => Math.random() - 0.5)
     }))
     setQuestions(createAnswers);
-    console.log(createAnswers);
   };
 
   
