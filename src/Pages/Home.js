@@ -19,22 +19,29 @@ const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCa
     //     }))
     //     setQuestions(createAnswers);
     // }
+
+    const form = {
+       maxWidth: '500px'
+    }
     return(
         <>
-            <h2>Welcome back!!!</h2>
-            <Form 
-                handleSubmit={handleSubmit}
-                getQuestions={getQuestions}
-                questions={questions}
-                category={category}
-                name={name}
-                setName={setName}
-                setCategory={setCategory}
-                setAmount={setAmount}
-                setDifficulty={setDifficulty}
-                amount={amount}
-                difficulty={difficulty}
-            />
+            <div className='justify-center flex items-center flex-col h-screen'>
+                <div style={form}>
+                    <Form 
+                        handleSubmit={handleSubmit}
+                        getQuestions={getQuestions}
+                        questions={questions}
+                        category={category}
+                        name={name}
+                        setName={setName}
+                        setCategory={setCategory}
+                        setAmount={setAmount}
+                        setDifficulty={setDifficulty}
+                        amount={amount}
+                        difficulty={difficulty}
+                    />
+                </div>
+            </div>
         </>
     )
 }

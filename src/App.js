@@ -11,22 +11,21 @@ function App() {
   const [ difficulty, setDifficulty ] = useState('');
   const [ amount, setAmount ] = useState('');
   
-  // const getQuestions = async (category = "", difficulty = "", amount = "") => {
-  //   const data = await fetch(
-  //     `https://opentdb.com/api.php?${amount && `amount=${amount}`}${category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
-  //   );
+  const getQuestions = async (category = "", difficulty = "", amount = "") => {
+    const data = await fetch(
+      `https://opentdb.com/api.php?${amount && `amount=${amount}`}${category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
+    );
 
-  //   const resp = await data.json();
-  //   const createAnswers = resp.results.map((answer) => ({
-  //       ...answer,
-  //       answers: [answer.correct_answer, ...answer.incorrect_answers].sort(() => Math.random() - 0.5),
-  //       setQuestions(createAnswers)
-  //   }))
-  //   console.log(...questions)
-  // };
+    const resp = await data.json();
+    const createAnswers = resp.results.map((answer) => ({
+        ...answer,
+        answers: [answer.correct_answer, ...answer.incorrect_answers].sort(() => (Math.random() > .5) ? 1 : -1),
+    }))
+    setQuestions(createAnswers)
+  };
   
   // const getQuestions = async (category = "", difficulty = "", amount = "") => {
-  //   const data = await fetch(
+  //   const {data} = await fetch(
   //     `https://opentdb.com/api.php?${amount && `amount=${amount}`}${category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
   //   );
 
@@ -35,7 +34,7 @@ function App() {
   //       ...answer,
   //       answers: [answer.correct_answer, ...answer.incorrect_answers].sort(() => Math.random() - 0.5)
   //   }))
-  //   setQuestions(...createAnswers);
+  //   setQuestions(createAnswers);
   //   console.log(questions)
   // };
 
@@ -56,20 +55,19 @@ function App() {
   //   console.log(questions)
   // };
 
-  const getQuestions = async (category = "", difficulty = "", amount = "") => {
-    const {data} = await axios.get(
-      `https://opentdb.com/api.php?${amount && `amount=${amount}`}${category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
-    )
+  // const getQuestions = async (category = "", difficulty = "", amount = "") => {
+  //   const {data} = await axios.get(
+  //     `https://opentdb.com/api.php?${amount && `amount=${amount}`}${category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
+  //   )
 
-    // const resp = await data.json();
-    const createAnswers = data.map((answer) => ({
-        ...answer,
-        answers: [answer.correct_answer, ...answer.incorrect_answers].sort(() => Math.random() - 0.5)
-    }))
-    setQuestions(createAnswers);
-    console.log(createAnswers);
-  };
-
+  //   const {results} = data
+  //   const createAnswers = results.map((answer) => ({
+  //       ...answer,
+  //       answers: [answer.correct_answer, ...answer.incorrect_answers].sort(() => Math.random() - 0.5)
+  //   }))
+  //   setQuestions(createAnswers);
+  //   console.log(questions)
+  // };
   
 
 

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Data from '../Data/Data'
 
-const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCategory, setDifficulty, setAmount, questions }) => {
+const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCategory, setDifficulty, setAmount }) => {
     const [ error, setError ] = useState(false);
     const [items, setItems] = useState([]);
     const navigate = useNavigate();
