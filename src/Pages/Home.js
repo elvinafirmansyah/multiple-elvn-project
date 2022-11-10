@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from '../Components/Form'
 
 const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCategory, setDifficulty, setAmount, questions, handleSubmit }) => {
@@ -20,12 +20,37 @@ const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCa
     //     setQuestions(createAnswers);
     // }
 
+    // const startminute = 1;
+    // const startseconds = 59;
+
+
+    // const [minutes, setMinutes] = useState(startminute);
+    // const [secondss, setSecondss] = useState(startseconds);
+    
+    // const timer = () => {
+    //     const startMinute = setInterval(() => {
+    //         setMinutes(minutes - 1);
+    //     }, 1000)
+    //     if (minutes <= 0) {
+    //         clearInterval(startMinute)
+    //         const startseconds = setInterval(() => {
+    //             setSecondss(secondss - 1);
+    //         }, 1000)
+    //         if (secondss <= 0) {
+    //             clearInterval(startseconds);
+    //         }
+    //     }
+    // }
+
+
+
     const form = {
        maxWidth: '500px'
     }
     return(
         <>
             <div className='justify-center flex items-center flex-col h-screen'>
+            
                 <div style={form}>
                     <Form 
                         handleSubmit={handleSubmit}

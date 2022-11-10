@@ -121,7 +121,7 @@ const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCa
                         transition
                         ease-in-out
                         m-0
-                        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none' min='1' max='50' placeholder={amount} value={amount} onChange={(e) => setAmount(e.target.value)} />
+                        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none' min='1' max='50' placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
                     </div>
                     <button type="submit" className="
                         w-full
