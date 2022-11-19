@@ -1,56 +1,33 @@
+import { data } from 'autoprefixer';
 import React, { useState, useEffect } from 'react';
 import Form from '../Components/Form'
+import { useNavigate } from 'react-router-dom';
+import {RiHistoryLine} from 'react-icons/ri'
 
-const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCategory, setDifficulty, setAmount, questions, handleSubmit }) => {
+const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCategory, setDifficulty, setAmount, questions, handleSubmit, datas }) => {
     // const [ questions, setQuestions ] = useState([]);
     // const [ category, setCategory ] = useState('');
     // const [ name, setName] = useState('');
     // const [ difficulty, setDifficulty ] = useState('');
     // const [ amount, setAmount ] = useState('');
-
-    // const getQuestions = async (category = "", difficulty = "", ammount = "") => {
-    //     const {data} = await fetch(
-    //         `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`
-    //     )  
-    //     const resp = await data.json();
-    //     const createAnswers = resp.results.map((answer) => ({
-    //         ...answer,
-    //         answers: [answer.correct_answers, ...answer.incorrect_answer].sort(() => Math.random() - 0,5)
-    //     }))
-    //     setQuestions(createAnswers);
-    // }
-
-    // const startminute = 1;
-    // const startseconds = 59;
-
-
-    // const [minutes, setMinutes] = useState(startminute);
-    // const [secondss, setSecondss] = useState(startseconds);
-    
-    // const timer = () => {
-    //     const startMinute = setInterval(() => {
-    //         setMinutes(minutes - 1);
-    //     }, 1000)
-    //     if (minutes <= 0) {
-    //         clearInterval(startMinute)
-    //         const startseconds = setInterval(() => {
-    //             setSecondss(secondss - 1);
-    //         }, 1000)
-    //         if (secondss <= 0) {
-    //             clearInterval(startseconds);
-    //         }
-    //     }
-    // }
-
-
+    const [data, setData] = useState();
+    const navigate = useNavigate();
 
     const form = {
        maxWidth: '500px'
     }
+
+    const centerElement = {
+        left: "50%",
+        transform: "translate(-50%, -20%)",
+    }
+
     return(
-        <>
-            <div className='justify-center flex items-center flex-col h-screen'>
-            
+        <div>
+            <div className='float-right relative'>
+                <button onClick={() => navigate("history")} className="bg-white px-3 py-2 rounded-lg flex items-center justify-between"><RiHistoryLine className="mr-2" />History</button>
+            </div>
+            <div className='top-1/2 h-screen absolute' style={centerElement}>
                 <div style={form}>
                     <Form 
                         handleSubmit={handleSubmit}
@@ -58,6 +35,8 @@ const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCa
                         questions={questions}
                         category={category}
                         name={name}
+                        setData={setData}
+                        data={data}
                         setName={setName}
                         setCategory={setCategory}
                         setAmount={setAmount}
@@ -67,7 +46,7 @@ const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCa
                     />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

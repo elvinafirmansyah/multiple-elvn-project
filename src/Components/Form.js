@@ -1,34 +1,32 @@
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Data from '../Data/Data'
+import ErrorMessage from './ErrorMessage';
 
-const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCategory, setDifficulty, setAmount }) => {
+const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCategory, setDifficulty, setAmount}) => {
     const [ error, setError ] = useState(false);
-    const [items, setItems] = useState([]);
     const navigate = useNavigate();
+    const [err, setErr] = useState('');
+    
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // let anjir = {
-    //     name: name,
-    //     category: category,
-    //     amount: amount,
-    //     difficulty: difficulty,
-    // }
-    // setItems(anjir);
-    if (!category || !name || !difficulty || !amount) {
-      setError(true);
-    } else { 
-      setError(false);
-      getQuestions(category, difficulty, amount);
-      navigate('quiz')
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!category || !difficulty || !amount || !name) {
+            setErr('Isi form dengan lengkap')
+        } else if (category === "Category" || difficulty === 'Difficulty') {
+            setErr("Isi form dengan lengkap")
+        } else {
+            getQuestions(category, difficulty, amount);
+            navigate('quiz');
+        }
     }
-  }
     return(
         <div>
-            <div className='block p-6 rounded-lg bg-gray-200 max-w-md'>
+            <div className='block p-6 rounded-xl bg-lime-400 max-w-md'>
+            <div className='bg-white'>
+                </div>
                 <form onSubmit={handleSubmit}>
-                    {error && <h1 className='text-red-500'>anjay tulah isi form</h1>}
+                    <ErrorMessage>{err}</ErrorMessage>
                     <div className="form-group mb-6">
                     <input  className="form-control block
                         w-full
@@ -44,7 +42,7 @@ const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCa
                         m-0
                         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput7"
                         placeholder="Name"
-
+                        name="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
@@ -67,12 +65,12 @@ const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCa
                         ease-in-out
                         m-0
                         focus:text-gray-700 focus:bg-white focus:border-0 focus:outline-none" aria-label=".form-select-lg example"
-
+                        name="category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
 
                     >
-                            <option selected>Category</option>
+                            <option selected className='text-gray-700'>Category</option>
                             {Data.map((item) => (
                             <option value={item.id} key={item.category}>{item.name}</option>
                             ))}
@@ -97,12 +95,12 @@ const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCa
                         m-0
                         focus:text-gray-700 focus:bg-white focus:border-0 focus:outline-none" aria-label=".form-select-lg example
                     " 
-                    
+                        name="difficulty"
                         value={difficulty}
                         onChange={(e) => setDifficulty(e.target.value)}
 
                     >
-                            <option selected>Difficulty</option>
+                            <option selected className='text-gray-700'>Difficulty</option>
                             <option value='easy'>Easy</option>
                             <option value='medium'>Medium</option>
                             <option value='hard'>Hard</option>
@@ -121,23 +119,26 @@ const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCa
                         transition
                         ease-in-out
                         m-0
-                        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none' min='1' max='50' placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+                        focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none' min='1' max='50' placeholder="Amount" 
+                        name="amount"
+                        value={amount} 
+                        onChange={(e) => setAmount(e.target.value)} />
                     </div>
                     <button type="submit" className="
                         w-full
                         px-6
-                        py-2.5
-                        bg-blue-600
+                        py-3
+                        bg-black
                         text-white
                         font-medium
                         text-xs
                         leading-tight
                         uppercase
-                        rounded
+                        rounded-lg
                         shadow-md
-                        hover:bg-blue-700 hover:shadow-lg
-                        focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
-                        active:bg-blue-800 active:shadow-lg
+                        hover:bg-gray-800 hover:shadow-lg
+                        focus:shadow-lg focus:outline-none focus:ring-0
+                        active:bg-gray-800 active:shadow-lg
                         transition
                         duration-150
                         ease-in-out"
