@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import Home from './Pages/Home'
 import Quiz from './Components/Quiz'
+import Form from './Components/Form'
+import Timer from './Components/Timer'
 import History from './Pages/History';
+import Binary from './Components/Binary'
 import {BiArrowBack} from 'react-icons/bi'
 
 // import axios from 'axios'
@@ -15,40 +18,6 @@ function App() {
   const [ amount, setAmount ] = useState('');
   const [ score, setScore ] = useState(0);
   const [ datas, setDatas] = useState([])
-  // const [ currentQuiz, setCurrentQuiz ] = useState(0);
-
-  // console.log(questions)s
-  // console.log(datas.category);
-
-  // console.log([...datas]);  
-  // useEffect(() => {
-  //   // const getHistory = (index) => {
-  //     //   let items = []
-  //     //   items.push(index);
-  //     //   setDatas(items);
-  //     // }
-  //     // console.log(questions);
-  //   // let categories = {
-  //   //   category: questions[currentQuiz].category,
-  //   // }
-  //   // setCategoryItem(categories.category)
-      
-  //   // console.log(categoryItem);
-    
-  //   // console.log(category)
-  //   let items = [];
-  //   let data = {
-  //     category: questions,
-  //     score: score,
-  //   }
-    
-  //   // console.log(data[0].map((i) => i.category))
-    
-  //   items.push(data)
-  //   setDatas(items[0]);
-  //   console.log(datas);
-  // })
-
   
   // Fetch Data / Mengambil data API
   
@@ -65,26 +34,7 @@ function App() {
     setQuestions(createAnswers);
   };
 
-  // const getQuestions = async (category = "", difficulty = "", amount = "") => {
-  //   const {data} = await axios.get(
-  //     `https://opentdb.com/api.php?${amount && `amount=${amount}`}${category && `&category=${category}`}${difficulty && `&difficulty=${difficulty}`}&type=multiple`
-  //   )
-
-  //   const {results} = data
-  //   const createAnswers = results.map((answer) => ({
-  //       ...answer,
-  //       answers: [answer.correct_answer, ...answer.incorrect_answers].sort(() => Math.random() - 0.5)
-  //   }))
-  //   setQuestions(createAnswers);
-  //   console.log(questions)
-  
-  // };
-
   const navigate = useNavigate();
-
-  // if (navigate('/')) {
-  //   console.log("ok berarti benar")
-  // }
 
   return (
     <div className="bg-black h-screen p-3">
@@ -128,6 +78,26 @@ function App() {
             />
           }
           />
+          <Route path='/form' element={
+            <Form 
+                getQuestions={getQuestions}
+                questions={questions}
+                category={category}
+                name={name}
+                setName={setName}
+                setCategory={setCategory}
+                setAmount={setAmount}
+                setDifficulty={setDifficulty}
+                amount={amount}
+                difficulty={difficulty}
+            />
+          }/>
+          <Route path='/timer' element={
+            <Timer />
+          }/>
+          <Route path='/binary' element={
+            <Binary />
+          }/>
         </Routes>
       </div>
     </div>

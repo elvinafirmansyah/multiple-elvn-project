@@ -13,6 +13,8 @@ const Quiz = ({questions, category, name, difficulty, amount, datas, setDatas}) 
     // const [ text, setText ] = useState(false)
     const [showText, setShowText] = useState(false);
 
+
+
     useEffect(() => {
         if (name) {
             setShowText(true);
@@ -83,17 +85,34 @@ const Quiz = ({questions, category, name, difficulty, amount, datas, setDatas}) 
         setShowScore(true);
     }
 
+    const [currentSecs, setCurrentSecs] = useState();
+    const [currentMins, setCurrentMins] = useState();
+    const [currentHours, setCurrentHours] = useState();
+
+    // const currentSecs = new Date().getSeconds();
+    // const currentMins = new Date().getMinutes();
+    // const currentHours = new Date().getHours();
+
     const pushData = () => {
+        // setCurrentSecs(new Date().getSeconds());
+        // setCurrentMins(new Date().getMinutes());
+        // setCurrentHours(new Date().getHours());
         const items = [...datas];
         let data = {
+            "min": new Date().getTime(),
             "score": score,
             "category": category,
             "name": name,
             "amount": questions.length, 
+            "date": new Date().toLocaleString(),
         }
         items.push(data);
         setDatas(items);
     }
+
+    console.log(questions)
+
+    // console.log(datas)
     // console.log(questions.category)
 
     // console.log(questions.length)
@@ -118,7 +137,7 @@ const Quiz = ({questions, category, name, difficulty, amount, datas, setDatas}) 
                             <div className='flex flex-col'>
                             <button onClick={() => {setCurrentQuiz(0); setScore(0)}} className="bg-black text-white p-3 rounded-xl m-3">Try Again</button>
                                 <button onClick={pushData}>
-                                <Link to='/'>Go Home</Link>
+                                <Link to='/form'>Go Back</Link>
                                 </button>
                             </div>
                     </div>    
