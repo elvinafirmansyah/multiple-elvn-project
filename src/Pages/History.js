@@ -15,7 +15,7 @@ const History = ({datas, setDatas, history}) => {
 
   
   return (
-    <div className='px-3 pt-12 overflow-hidden'>   
+    <div className='px-3 pt-12 h-screen overflow-hidden'>   
       <div className='flex justify-between items-center'>
         <h2 className='text-3xl my-4 text-lime-500 font-bold'>History</h2>
         {datas.length > 1 && (<button onClick={() => setDatas([])} className="bg-red-500 px-3 py-2 rounded-md font-semibold">Clear All</button>)} 

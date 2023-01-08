@@ -6,4 +6,4 @@ const ErrorMessage = ({children}) => {
   )
 }
 
-export default ErrorMessage
+export default ErrorMessage;

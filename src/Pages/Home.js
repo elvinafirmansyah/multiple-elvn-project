@@ -12,8 +12,8 @@ const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCa
     // const [ amount, setAmount ] = useState('')
     const navigate = useNavigate();
 
-    const form = {
-       maxWidth: '500px'
+    const height = {
+       height: '95vh'
     }
 
     const centerElement = {
@@ -23,13 +23,13 @@ const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCa
     }   
     return(
         <div>
-            <div className='h-screen flex justify-center items-center'>
+            <div className='flex justify-center items-center h-screen'>
                 <div className="flex justify-center items-center flex-col">
                     <h1 className='text-white'>Click one of these buttons to visit</h1>
-                    <div className='my-5'>
-                        <Link to='/form' className='bg-lime-400 px-3 py-2.5 mr-3 rounded-lg'>Form</Link>
-                        <Link to='/timer' className='bg-lime-400 px-3 py-2.5 rounded-lg mr-3'>Timer</Link>
-                        <Link to='/binary' className='bg-lime-400 px-3 py-2.5 rounded-lg'>Binary</Link>
+                    <div className='my-5 text-md'>
+                        <Link to='/form' className='bg-lime-400 px-4 py-3 mr-3 rounded-lg'>Form</Link>
+                        <Link to='/timer' className='bg-lime-400 px-4 py-3 rounded-lg mr-3'>Timer</Link>
+                        <Link to='/binary' className='bg-lime-400 px-4 py-3 rounded-lg'>Binary</Link>
                     </div>
                 </div>
             </div>

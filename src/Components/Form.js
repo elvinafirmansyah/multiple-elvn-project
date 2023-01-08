@@ -33,9 +33,10 @@ const Form = ({ name, category, getQuestions, difficulty, amount, setName, setCa
             navigate('/quiz');
         }
     }
+
     return(
         <div>
-            <div className='float-right'>
+            <div className='float-right absolute right-0 m-3'>
                 <button onClick={() => navigate("/history")} className="bg-white px-3 py-2 rounded-lg flex items-center justify-between"><RiHistoryLine className="mr-2" />History</button>
             </div>
             <div className='h-screen flex justify-center items-center flex-col'>

@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 body {
   margin: 0;
@@ -9,7 +10,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  font-family: 'Inter', sans-serif;
 }
 
 /* width */
@@ -32,7 +33,7 @@ body {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #70aa14; 
+  background: #86d10e; 
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

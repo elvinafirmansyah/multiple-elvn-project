@@ -35,10 +35,9 @@ function App() {
   };
 
   const navigate = useNavigate();
-
   return (
-    <div className="bg-black h-screen p-3">
-      <div>
+    <div className="bg-black relative">
+      <div className="absolute m-3">
         <button className='bg-lime-500 p-3 rounded-lg absolute' onClick={() => navigate(-1)}><BiArrowBack /></button>
       </div>
       <div>
@@ -55,8 +54,8 @@ function App() {
               setDifficulty={setDifficulty}
               amount={amount}
               difficulty={difficulty}
-              datas={datas}
-            />} 
+              datas={datas} 
+              />} 
           />
           <Route path='/quiz' element={
             <Quiz 

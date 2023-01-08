@@ -110,7 +110,7 @@ const Quiz = ({questions, category, name, difficulty, amount, datas, setDatas}) 
         setDatas(items);
     }
 
-    console.log(questions)
+    // console.log(questions)
 
     // console.log(datas)
     // console.log(questions.category)
