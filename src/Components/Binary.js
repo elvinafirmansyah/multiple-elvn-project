@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BiTrash } from 'react-icons/bi'
+import {MdModeEditOutline} from 'react-icons/md'
 
 
 const Binary = () => {
@@ -51,19 +52,14 @@ const Binary = () => {
         return 'Target is not found'
     }
 
-    const datas = ['anda', 'bitch', 'kenapa'];
-    // console.log(midpoint)
-    const tar = 'kenapa';
-    // console.log(linearSearch(datas, tar))
-
     const binarySubmit = (e) => {
         e.preventDefault();
-        setBinary(binarySearch(items, target))
+        setBinary(binarySearch(items.map((item) => item.value), target))
     }
 
     const linearSubmit = (e) => {
         e.preventDefault();
-        setLinear(linearSearch(items, linearTarget));
+        setLinear(linearSearch(items.map((item) => item.value), linearTarget));
     }
     
     useEffect(() => {
@@ -82,7 +78,6 @@ const Binary = () => {
         }
         // console.log(linearTarget)
     }, [items, binary, linearTarget])
-    // console.log(items);
 
     const [err, setErr] = useState(false);
     const [textError, setTextError] = useState('');
@@ -98,16 +93,20 @@ const Binary = () => {
         setArrays('');
     }
 
-    
     const addArray = (index) => {
         const check = (item) => item === index;
-        const checkData = items.some(check);
+        const newMap = items.map((e) => e.value);
+        const checkData = newMap.some(check);
         if (checkData === true) {
             setErr(true);
             setTextError('input yang lain');
         } else {
             setErr(false);
-            setItems((oldData) => [...oldData, index])
+            const newValue = {
+                value: index,
+                id: items.length,
+            }
+            setItems((oldData) => [...oldData, newValue])
         }
         items.sort();
     }
@@ -116,15 +115,20 @@ const Binary = () => {
     const [id, setId] = useState([]);
 
     const remove = (index) => {
-        const data = [...items];
-        data.splice(index, 1);
-        setItems(data);
+        const getValue = [...items]
+        getValue.splice(index, 1);
+        setItems(getValue);
+        // console.log(items);
         // push data into history
+        // console.log(data);
         setId(index);
-        const print = [...items];
+        const print = [...items.map((e) => e.value)];
         setHistoryItem((data) => [...data, print[index]]);
-        // setHistoryItem([]);
     }
+    
+    // console.log(id);
+    // console.log(historyItem)
+    // console.log(items)
 
     const removePermanent = (index) => {
         const data = [...historyItem];
@@ -132,15 +136,17 @@ const Binary = () => {
         setHistoryItem(data);
     }
 
+
+    // console.log(historyItem)
+
     const restore = (index) => {
-        const data = [...historyItem];
-        data.splice(index, 1);
-        setHistoryItem(data); 
         const print = [...historyItem];
         const oldData = [...items];
-        oldData.splice(id, 0, print[index])
+        oldData.splice(id, 0, {value: print[index]});
+        // console.log(oldData)
         setItems(oldData);   
-
+        print.splice(index, 1);
+        setHistoryItem(print);
     }
 
     const [output, setOutput] = useState([]);
@@ -150,13 +156,14 @@ const Binary = () => {
     // the variable we need to make the search filter
     const [strange, setStrange] = useState('')
     const [change, setChange] = useState([]);
-    const [idx, setIdx] = useState([]);
+    // const [idx, setIdx] = useState([]);
 
-
+    
+    
     // useEffect to apply search filter
     useEffect(() => {
         if (strange !== '') {
-            const filteredStrange = items.filter((isi) => {
+            const filteredStrange = items.map((e) => e.value).filter((isi) => {
                 return isi.toLocaleLowerCase().includes(strange.toLocaleLowerCase());
             })
             setChange(filteredStrange);
@@ -171,7 +178,7 @@ const Binary = () => {
     useEffect(() => {
         if (filterValue !== '') {
             const filtered = items.filter((isi) => {
-                return isi.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
+                return isi.value.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
             });  
             setOutput(filtered);
             if (filterValue.length > 1) {
@@ -187,8 +194,51 @@ const Binary = () => {
             setOutput([]);
         }
     }, [filterValue, items, output])
+    
+    // const [editValue, setEditValue] = useState('');
+    const [appearEdit, setAppearEdit] = useState(false);
+    // const [modal, setModal] = useState(false);
+    const [newItems, setNewItems] = useState({});
+    // const [getid, setgetid] = useState()
+    // const [generateId, setGenerateId] = useState([]);
 
-  return (
+    // console.log(strange);
+    // useEffect(() => {
+    //     setNewItems({
+    //         ...newItems,
+    //     })
+    //     console.log(newItems)
+    //     // console.log(newItems)
+    // }, [newItems, editValue])
+
+    const createEdit = (id, newItem) => {
+        const edit = items.map((e) => {
+           if (e.id ===  id) {
+                return newItem;
+           } else {
+                return e;
+           }
+        })
+        setAppearEdit(false);
+        setItems(edit);
+    }
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        createEdit(newItems.id, newItems)
+    }
+
+    const disappear = () => {
+        setAppearEdit(false);
+    }
+    
+    const setEditForm = (item) => {
+        setAppearEdit(true)
+        setNewItems({ ...item })
+        // console.log(newItems)
+    }
+
+    return (
     <div className='bg-white p-3'>
         <div className=''>
             <div className='max-w-screen-sm mt-16'>
@@ -224,17 +274,42 @@ const Binary = () => {
                         )}
                         <div>
                         {strange.length === 0 ? (
-                            (items.map((item, index) => (
-                                <div className='flex justify-between items-center py-2' key={index}>
-                                    <h2 className='text-white mr-2'>{index + 1}. <span className='break-all text-white'>{item}</span></h2>
-                                    <button className='bg-red-500 p-2.5 text-white rounded-lg' onClick={() => remove(index)} ><BiTrash /></button>
-                                </div>
-                            )))
+                            <div>
+                                {appearEdit ? (
+                                    <div>
+                                        <form onSubmit={submitForm}>
+                                            <input 
+                                                value={newItems.value}
+                                                placeholder='rename'
+                                                onChange={(e) => setNewItems({...newItems, value: e.target.value})}
+                                            />
+                                            <button className='text-white'>Submit</button>
+                                        </form>
+                                        <button onClick={disappear} className='text-white'>ilang</button>
+                                    </div>
+                                ) : (
+                                    (items.map((item, index) => {
+                                        return(
+                                            <div>
+                                                <div>
+                                                    <div className='flex justify-between items-center py-2' key={index}>
+                                                        <h2 className='text-white mr-2'>{index + 1}. <span className='break-all text-white'>{item.value}</span></h2>
+                                                        <div>
+                                                            <button className='bg-blue-500 p-2.5 text-white rounded-lg' onClick={() => setEditForm(item)}><MdModeEditOutline /></button>
+                                                            <button className='bg-red-500 p-2.5 text-white rounded-lg' onClick={() => remove(index)} ><BiTrash /></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }))
+                                )}
+                            </div>
                         ) : (
                             (change.length === 0 ? (
                                 <h2 className='text-red-300'>Not Found</h2>
                             ) : (
-                                (items.filter((it) => {
+                                (items.map((e) => e.value).filter((it) => {
                                     return it.toLocaleLowerCase().includes(strange.toLocaleLowerCase());
                                 }).map((item, index) => {
                                     function highlightText(text, highlight) {
