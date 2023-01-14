@@ -27,9 +27,9 @@ const Home = ({ name, category, getQuestions, difficulty, amount, setName, setCa
                 <div className="flex justify-center items-center flex-col">
                     <h1 className='text-white'>Click one of these buttons to visit</h1>
                     <div className='my-5 text-md'>
-                        <Link to='/form' className='bg-lime-400 px-4 py-3 mr-3 rounded-lg'>Form</Link>
+                        <Link to='/form' className='bg-lime-400 px-4 py-3 mr-3 rounded-lg'>Play Quiz</Link>
                         <Link to='/timer' className='bg-lime-400 px-4 py-3 rounded-lg mr-3'>Timer</Link>
-                        <Link to='/binary' className='bg-lime-400 px-4 py-3 rounded-lg'>Binary</Link>
+                        <Link to='/binary' className='bg-lime-400 px-4 py-3 rounded-lg'>Multiple Search Input</Link>
                     </div>
                 </div>
             </div>

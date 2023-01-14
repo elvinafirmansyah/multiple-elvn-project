@@ -125,19 +125,12 @@ const Binary = () => {
         const print = [...items.map((e) => e.value)];
         setHistoryItem((data) => [...data, print[index]]);
     }
-    
-    // console.log(id);
-    // console.log(historyItem)
-    // console.log(items)
 
     const removePermanent = (index) => {
         const data = [...historyItem];
         data.splice(index, 1);
         setHistoryItem(data);
     }
-
-
-    // console.log(historyItem)
 
     const restore = (index) => {
         const print = [...historyItem];
@@ -152,35 +145,16 @@ const Binary = () => {
     const [output, setOutput] = useState([]);
     const [filterValue, setFilterValue] = useState('');
     const [showError, setShowError] = useState(false);
-
-    // the variable we need to make the search filter
-    const [strange, setStrange] = useState('')
-    const [change, setChange] = useState([]);
-    // const [idx, setIdx] = useState([]);
-
-    
-    
-    // useEffect to apply search filter
-    useEffect(() => {
-        if (strange !== '') {
-            const filteredStrange = items.map((e) => e.value).filter((isi) => {
-                return isi.toLocaleLowerCase().includes(strange.toLocaleLowerCase());
-            })
-            setChange(filteredStrange);
-        }
-        // const position = items.toLocaleLowerCase().indexOf(strange.toLocaleLowerCase());
-        // console.log(position)
-        // console.log(strange);
-    }, [items, strange, change])
-
-
     
     useEffect(() => {
         if (filterValue !== '') {
-            const filtered = items.filter((isi) => {
-                return isi.value.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
+            // const getValue = 
+            const filtered = items.map((item) => item.value).filter((isi) => {
+                return isi.toLocaleLowerCase().includes(filterValue.toLocaleLowerCase());
             });  
+            // console.log(filtered);
             setOutput(filtered);
+            // console.log(output)
             if (filterValue.length > 1) {
                 if (output.length === 0) {
                     setShowError(true);
@@ -194,6 +168,23 @@ const Binary = () => {
             setOutput([]);
         }
     }, [filterValue, items, output])
+
+    console.log(output);
+    // the variable we need to make the search filter
+    const [strange, setStrange] = useState('')
+    const [filterOutput, setFilteredOutput] = useState([]);
+
+    useEffect(() => {
+        if (strange !== '') {
+            const filteredValue = items.map((e) => e.value).filter((filterItem) => {
+                return filterItem.toLowerCase().includes(strange.toLowerCase());
+            })
+            setFilteredOutput(filteredValue)
+        }
+    }, [strange, items])
+
+    // console.log(filterValue)
+    // console.log(filterOutput.map((e, idx) => idx))
     
     // const [editValue, setEditValue] = useState('');
     const [appearEdit, setAppearEdit] = useState(false);
@@ -238,9 +229,12 @@ const Binary = () => {
         // console.log(newItems)
     }
 
+    // console.log(change);
+    // console.log(strange)
+
     return (
     <div className='bg-white p-3'>
-        <div className=''>
+        <div className='max-w-screen-sm'>
             <div className='max-w-screen-sm mt-16'>
                 <form onSubmit={handleSubmit} className="">
                     <div className='flex'>
@@ -273,60 +267,62 @@ const Binary = () => {
                             </div>
                         )}
                         <div>
-                        {strange.length === 0 ? (
-                            <div>
-                                {appearEdit ? (
-                                    <div>
-                                        <form onSubmit={submitForm}>
-                                            <input 
-                                                value={newItems.value}
-                                                placeholder='rename'
-                                                onChange={(e) => setNewItems({...newItems, value: e.target.value})}
-                                            />
-                                            <button className='text-white'>Submit</button>
-                                        </form>
-                                        <button onClick={disappear} className='text-white'>ilang</button>
-                                    </div>
-                                ) : (
-                                    (items.map((item, index) => {
-                                        return(
+                        {strange === '' ? (
+                            (appearEdit ? (
+                                <div>
+                                    <form onSubmit={submitForm}>
+                                        <input 
+                                            value={newItems.value}
+                                            placeholder='rename'
+                                            onChange={(e) => setNewItems({...newItems, value: e.target.value})}
+                                        />
+                                        <button className='text-white'>Submit</button>
+                                    </form>
+                                    <button onClick={disappear} className='text-white'>ilang</button>
+                                </div>
+                            ) : (
+                                (items.map((item, index) => {
+                                    return(
+                                        <div>
                                             <div>
-                                                <div>
-                                                    <div className='flex justify-between items-center py-2' key={index}>
-                                                        <h2 className='text-white mr-2'>{index + 1}. <span className='break-all text-white'>{item.value}</span></h2>
-                                                        <div>
-                                                            <button className='bg-blue-500 p-2.5 text-white rounded-lg' onClick={() => setEditForm(item)}><MdModeEditOutline /></button>
-                                                            <button className='bg-red-500 p-2.5 text-white rounded-lg' onClick={() => remove(index)} ><BiTrash /></button>
-                                                        </div>
+                                                <div className='flex justify-between items-center py-2' key={index}>
+                                                    <h2 className='text-white mr-2'>{index + 1}. <span className='break-all text-white'>{item.value}</span></h2>
+                                                    <div>
+                                                        <button className='bg-blue-500 p-2.5 text-white rounded-lg' onClick={() => setEditForm(item)}><MdModeEditOutline /></button>
+                                                        <button className='bg-red-500 p-2.5 text-white rounded-lg' onClick={() => remove(index)} ><BiTrash /></button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        )
-                                    }))
-                                )}
-                            </div>
+                                        </div>
+                                    )
+                                }))
+                            ))
                         ) : (
-                            (change.length === 0 ? (
-                                <h2 className='text-red-300'>Not Found</h2>
+                            (filterOutput.length === 0 ? (
+                                <h2 className='text-red-300'>not found</h2>
                             ) : (
-                                (items.map((e) => e.value).filter((it) => {
-                                    return it.toLocaleLowerCase().includes(strange.toLocaleLowerCase());
-                                }).map((item, index) => {
+                                (filterOutput.map((item, index) => {
                                     function highlightText(text, highlight) {
                                         // Split on highlight term and include term into parts, ignore case
                                         const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-                                        console.log(parts);
                                         return(
                                             <div className='flex'>
-                                                {parts.map((part, i) => 
+                                                {parts.map((part, i) => (
                                                     <h2 key={i} className={part.toLocaleLowerCase() === highlight.toLowerCase() ? ('break-all bg-lime-400 text-black') : ('break-all text-white')}> {part} </h2>
-                                                )}
+                                                ))}
                                             </div>
                                         )
                                     }
+    
+                                    if (item) {
+                                        console.log(item)
+                                    }
+    
+                                    // console.log(highlightText(item, strange))
+                                    // console.log(item.length);
                                     return(
                                         <div className='flex justify-between items-center py-2' key={index}>
-                                            <h2 className='text-white mr-2 flex'><span>{index + 1}. </span> <span className='ml-1.5'>{highlightText(item, strange)}</span></h2>
+                                            <h2 className='text-white mr-2 flex'><span>{index + 1}. </span> <span className='ml-1.5'></span>{highlightText(item, strange)}</h2>
                                             <button className='bg-red-500 p-2.5 text-white rounded-lg' onClick={() => remove(index)} ><BiTrash /></button>
                                         </div>
                                     )
@@ -335,64 +331,67 @@ const Binary = () => {
                         )}
                         </div>
                     </div>
-                    <div className=''>
-                        <div className='flex'>
-                            <div className='binary'>
+                    <div className='w-full'>
+                        <div className='w-full'>
+                            <div className='binary my-4'>
                                 {binary ? (
                                     <div>
-                                        <div className='w-fit'>
-                                            <form >
-                                                <div className=''>
-                                                    <input placeholder='target' value={target} onChange={(e) => setTarget(e.target.value)} className="px-3 py-2.5 focus:outline-none mr-3 bg-gray-100 rounded-lg"/>
-                                                    {binary === 'Target is not found' ? (
-                                                        <button className="py-2.5 px-3 bg-black  rounded-lg text-white" onClick={binarySubmit}>Get New</button>
-                                                    ) : (
-                                                        <button className="py-2.5 px-3 bg-black text-sm rounded-lg text-white" onClick={binarySubmit}>Get New Again</button>
-                                                    )}
-                                                </div>
-                                            </form>
-                                            <h3 className='bg-lime-400 my-2 rounded-lg px-3.5 py-4'>{binary}</h3>
-                                        </div>
-
+                                        <form className='w-full'>
+                                            <div className='w-full md:flex items-center'>
+                                                <input placeholder='Search Binary' value={target} onChange={(e) => setTarget(e.target.value)} className="px-3 py-2.5 focus:outline-none mr-3 bg-gray-100 rounded-lg w-full"/>
+                                                {binary === 'Target is not found' ? (
+                                                    <button className="py-2.5 px-3 bg-black  rounded-lg text-white w-1/5" onClick={binarySubmit}>Get New</button>
+                                                ) : (
+                                                    <button className="py-2.5 px-3 bg-black text-sm rounded-lg text-white w-1/5" onClick={binarySubmit}>Get New Again</button>
+                                                )}
+                                            </div>
+                                        </form>
+                                        <h3 className='bg-lime-400 my-2 rounded-lg px-3.5 py-4'>{binary}</h3>
                                     </div>
                                 ) : (
-                                    <div className=''>
+                                    <div className='w-full'>
                                         <form onSubmit={binarySubmit}>
-                                            <input placeholder='target' value={target} onChange={(e) => setTarget(e.target.value)} className="px-3 py-2.5 focus:outline-none mr-3 bg-gray-100 rounded-lg"/>
-                                            <button className="py-2.5 px-3 bg-black rounded-lg text-white">Search Binary</button>
+                                            <div className='md:flex items-center'>
+                                                <input placeholder='Search Binary' value={target} onChange={(e) => setTarget(e.target.value)} className="px-3 py-2.5 focus:outline-none mr-3 bg-gray-100 rounded-lg w-full"/>
+                                                <button className="py-2.5 px-3 bg-black rounded-lg text-white md:w-3/12">Search Binary</button>
+                                            </div>
                                         </form>
                                     </div>
                                 )}
                             </div>
                             
-                            <div className='linear w-fit'>
+                            <div className='linear'>
                                 {linear ? (
-                                    <div>
+                                    <div className='w-full'>
                                         <form onSubmit={linearSubmit}>
-                                            <input 
-                                                className='px-3 py-2.5 focus:outline-none mr-3 bg-gray-100 rounded-lg'
-                                                value={linearTarget}
-                                                placeholder='Search Linear...'
-                                                onChange={(e) => setLinearTarget(e.target.value)}
-                                            />
-                                            {linear === 'Target is not found' ? (                                       
-                                                <button className='py-2.5 px-3 bg-black rounded-lg text-white'>Get New</button>
-                                            ) : (
-                                                <button className='py-2.5 px-3 bg-black rounded-lg text-white'>Get New Again</button>
-                                            )}
+                                            <div className='md:flex w-full items-center'>
+                                                <input 
+                                                    className='px-3 py-2.5 focus:outline-none mr-3 bg-gray-100 rounded-lg w-full'
+                                                    value={linearTarget}
+                                                    placeholder='Search Linear...'
+                                                    onChange={(e) => setLinearTarget(e.target.value)}
+                                                />
+                                                {linear === 'Target is not found' ? (                                       
+                                                    <button className='py-2.5 px-3 bg-black rounded-lg text-white w-1/5'>Get New</button>
+                                                ) : (
+                                                    <button className='py-2.5 px-3 bg-black rounded-lg text-white w-1/5'>Get New Again</button>
+                                                )}
+                                            </div>
                                         </form>
                                         <h3 className='bg-lime-400 my-2 rounded-lg px-3.5 py-4'>{linear}</h3>
                                     </div>
                                 )  :  (
-                                    <div>
+                                    <div className='w-full'>
                                         <form onSubmit={linearSubmit}>
-                                            <input 
-                                                className='px-3 py-2.5 focus:outline-none mr-3 bg-gray-100 rounded-lg'
+                                            <div className='md:flex items-center'>
+                                                <input 
+                                                className='px-3 py-2.5 focus:outline-none mr-3 bg-gray-100 rounded-lg w-full'
                                                 value={linearTarget}
                                                 placeholder='Search Linear...'
                                                 onChange={(e) => setLinearTarget(e.target.value)}
-                                            />
-                                            <button className='py-2.5 px-3 bg-black rounded-lg text-white'>Search Linear</button>
+                                                />
+                                                <button className='py-2.5 px-3 bg-black rounded-lg text-white md:w-3/12'>Search Linear</button>
+                                            </div>
                                         </form>
                                     </div>
                                 )}
@@ -402,7 +401,7 @@ const Binary = () => {
                         <div className='py-3 filter-value'>
                             <form >
                                 <input 
-                                    className='bg-gray-100 rounded-lg px-3 py-2 mb-3 mt-1 focus:outline-none'
+                                    className='bg-gray-100 rounded-lg px-3 py-2 mb-3 mt-1 focus:outline-none w-full'
                                     value={filterValue}
                                     onChange={(e) => setFilterValue(e.target.value)}
                                     placeholder="Search..."
