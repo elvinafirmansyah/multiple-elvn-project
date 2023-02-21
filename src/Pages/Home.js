@@ -1,6 +1,6 @@
 import { data } from 'autoprefixer';
 import React, { useState, useEffect } from 'react';
-import Form from '../Components/Form'
+import Form from './Form'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 

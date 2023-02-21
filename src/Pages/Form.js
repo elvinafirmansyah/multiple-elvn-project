@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Data from '../Data/Data'
-import ErrorMessage from './ErrorMessage';
+import ErrorMessage from '../Components/ErrorMessage';
 import {RiHistoryLine} from 'react-icons/ri'
 
 

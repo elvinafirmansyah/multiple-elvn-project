@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom'
-import Home from './Pages/Home'
-import Quiz from './Components/Quiz'
-import Form from './Components/Form'
-import Timer from './Components/Timer'
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import Home from './Pages/Home';
+import Quiz from './Components/Quiz';
+import Form from './Pages/Form';
+import Timer from './Pages/Timer';
 import History from './Pages/History';
-import Binary from './Components/Binary'
+import Binary from './Pages/Binary';
+import HistoryBinary from './Pages/HistoryBinary';
 import {BiArrowBack} from 'react-icons/bi'
 
 // import axios from 'axios'
@@ -17,7 +18,6 @@ function App() {
   const [ difficulty, setDifficulty ] = useState('');
   const [ amount, setAmount ] = useState('');
   const [ score, setScore ] = useState(0);
-  const [ datas, setDatas] = useState([])
   
   // Fetch Data / Mengambil data API
   
@@ -33,12 +33,65 @@ function App() {
     }))
     setQuestions(createAnswers);
   };
+  
 
   const navigate = useNavigate();
+
+  // Add data to localStorage 
+  const savedItems = () => {
+    const saved = JSON.parse(localStorage.getItem('items'));
+    if (saved) {
+      return JSON.parse(localStorage.getItem('items'));
+    } else {
+      return []
+    }
+  } 
+
+  const savedHistoryBinary = () => {
+    const saved = JSON.parse(localStorage.getItem('historybinary'));
+    if (saved) {
+      return JSON.parse(localStorage.getItem('historybinary'));
+    } else {
+      return []
+    }
+  } 
+
+  const savedHistory = () => {
+    const saved = JSON.parse(localStorage.getItem('history'));
+    if (saved) {
+      return JSON.parse(localStorage.getItem('history'));
+    } else {
+      return []
+    }
+  } 
+  
+  // history Quiz
+  const [datas, setDatas] = useState(savedHistory);
+
+  // console.log(datas);
+
+  // const [newTest, setNewTest] = useState([]);
+
+
+
+
+  // History Data Binary
+  const [items, setItems] = useState(savedItems);
+  const [historyItem, setHistoryItem] = useState(savedHistoryBinary);
+  const [id, setId] = useState([]);
+  
+  useEffect(() => {
+    localStorage.setItem('items', JSON.stringify(items));
+    localStorage.setItem('historybinary', JSON.stringify(historyItem));
+    localStorage.setItem('history', JSON.stringify(datas));
+  }, [items, historyItem, datas]);
   return (
     <div className="bg-black relative">
-      <div className="absolute m-3">
+      <div className="absolute m-3 ">
         <button className='bg-lime-500 p-3 rounded-lg absolute' onClick={() => navigate(-1)}><BiArrowBack /></button>
+      </div>
+      <div className=''>
+        <button className='bg-lime-500 p-2 rounded-lg absolute m-3 ml-16' onClick={() => navigate('/')}>Home</button>
       </div>
       <div>
         <Routes>
@@ -95,7 +148,24 @@ function App() {
             <Timer />
           }/>
           <Route path='/binary' element={
-            <Binary />
+            <Binary
+              setHistoryItem={setHistoryItem}
+              historyItem={historyItem}
+              setId={setId}
+              id={id}
+              items={items}
+              setItems={setItems}
+            />
+          }/>
+          <Route path='/historybinary' element={
+            <HistoryBinary
+              setHistoryItem={setHistoryItem}
+              historyItem={historyItem}
+              setId={setId}
+              id={id}
+              items={items}
+              setItems={setItems}
+            />
           }/>
         </Routes>
       </div>
